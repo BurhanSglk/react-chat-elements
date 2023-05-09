@@ -2,7 +2,7 @@ import React, { FC, Key, useEffect, useRef, useState } from 'react'
 import './MessageList.css'
 
 import MessageBox from '../MessageBox/MessageBox'
-
+import SuggestMessageButtons from '../SuggestMessage/SuggestMessage'
 import classNames from 'classnames'
 import { FaChevronDown } from 'react-icons/fa'
 import { IMessageListProps, MessageListEvent } from '../type'
@@ -167,6 +167,13 @@ const MessageList: FC<IMessageListProps> = ({
           />
         ))}
       </div>
+
+      {props.suggestMessages && (
+        <SuggestMessageButtons
+          suggestMessages={props.suggestMessages.suggestMessages}
+          messageClick={props.suggestMessages.messageClick ? props.suggestMessages.messageClick : () => {}}
+        />
+      )}
       {downButton === true && _downButton && toBottomHeight !== '100%' && (
         <div className='rce-mlist-down-button' onClick={toBottom}>
           <FaChevronDown />

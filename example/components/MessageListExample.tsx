@@ -104,7 +104,7 @@ function MessageListExample() {
         break
     }
   }
-
+  const test = () => {}
   return (
     <div className='right-panel rce-example-messageList'>
       <MessageList
@@ -116,7 +116,6 @@ function MessageListExample() {
         downButtonBadge={10}
         sendMessagePreview={true}
       />
-
       <div
         style={{
           position: 'fixed',

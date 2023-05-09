@@ -1,6 +1,7 @@
 .rce-container-mlist {
   position: relative;
   display: flex;
+  flex-direction: column;
 }
 
 .rce-mlist {
