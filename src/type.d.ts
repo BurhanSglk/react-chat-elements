@@ -57,8 +57,10 @@ export interface IChatItemProps {
   onDragEnter?: Function
   onDrop?: Function
   onDragLeave?: Function
+  setDragStates?: Function
   onDragComponent?: any
   letterItem?: ILetterItem
+  customStatusComponents?: React.ElementType<any>[]
 }
 
 /**
@@ -140,6 +142,7 @@ export interface IDefaultProps {
  * @prop replyButton The Message's replyButton icon and required.
  * @prop removeButton The Message's removeButton icon and required.
  * @prop status The Message's status icon and required.
+ * @prop statusTitle The Message's statusTitle and required.
  * @prop notch The Message's notch and required.
  * @prop copiableDate The Message's copiableDate and optional.
  * @prop retracted The Message's retracted and required.
@@ -161,6 +164,7 @@ export interface IMessage {
   replyButton: boolean
   removeButton: boolean
   status: 'waiting' | 'sent' | 'received' | 'read'
+  statusTitle?: string
   notch: boolean
   copiableDate?: boolean
   retracted: boolean
@@ -517,7 +521,7 @@ export interface ISpotifyMessageProps extends ISpotifyMessage {}
  */
 export interface IMessageBoxProps {
   onMessageFocused?: any
-  renderAddCmp?: React.Component
+  renderAddCmp?: JSX.Element | (() => JSX.Element)
   onClick?: React.MouseEventHandler
   onOpen?: React.MouseEventHandler
   onPhotoError?: React.MouseEventHandler
@@ -533,6 +537,8 @@ export interface IMessageBoxProps {
   onMeetingLinkClick?: React.MouseEventHandler
   onMeetingTitleClick?: React.MouseEventHandler
   onMeetingVideoLinkClick?: React.MouseEventHandler
+  styles?: React.CSSProperties
+  notchStyle?: React.CSSProperties
 }
 
 /**
@@ -575,11 +581,13 @@ export interface IMessageListProps {
   isShowChild?: boolean
   referance: any
   dataSource: MessageType[]
+  suggestMessages?: ISuggestMessageProps
+  actionButtons?: MeetingLinkActionButtons[]
   lockable: boolean
   toBottomHeight?: String | number
-  downButton: boolean
-  downButtonBadge: number
-  sendMessagePreview: boolean
+  downButton?: boolean
+  downButtonBadge?: number
+  sendMessagePreview?: boolean
   onScroll?: React.UIEventHandler
   onContextMenu?: MessageListEvent
   onDownButtonClick?: React.RefObject<HTMLButtonElement>
@@ -598,6 +606,8 @@ export interface IMessageListProps {
   onMeetingTitleClick?: React.MouseEventHandler
   onMeetingVideoLinkClick?: React.MouseEventHandler
   onMeetingLinkClick?: MessageListEvent
+  messageBoxStyles?: React.CSSProperties
+  notchStyle?: React.CSSProperties
 }
 
 /**
@@ -613,9 +623,9 @@ export type MessageListEvent = (item: MessageType, index: number, event: React.M
  * @prop state The Progress Options's state is a object.
  */
 export interface IProgressOptions {
-  state: {
-    color: string
-    width: string
+  state?: {
+    color?: string
+    width?: string
   }
 }
 
@@ -628,6 +638,14 @@ export interface IMeetingLinkMessage extends IMessage {
   meetingID?: string
 }
 
+export type TActionButton = React.FunctionComponent<any>
+
+export interface MeetingLinkActionButtons {
+  // return meeting id
+  onClickButton: (id: string) => void
+  Component: TActionButton
+}
+
 /**
  * IMeetingLinkMessageProps Interface
  * @prop type The Meeting Link Message's type is "meetingLink" and required.
@@ -636,7 +654,7 @@ export interface IMeetingLinkMessage extends IMessage {
  * @prop onMeetingMoreSelect The Meeting More Select Message's function onMeetingMoreSelect(event: React.MouseEvent<T, MouseEvent>) and optional.
  */
 export interface IMeetingLinkMessageProps extends IMeetingLinkMessage {
-  onMeetingLinkClick?: (id: string) => void
+  actionButtons?: MeetingLinkActionButtons[]
 }
 
 /**
@@ -784,6 +802,7 @@ export interface IInputProps {
   placeholder?: string
   defaultValue?: string
   inputStyle?: Object
+  value?: string
   onCopy?: React.ClipboardEventHandler
   onCut?: React.ClipboardEventHandler
   onPaste?: React.ClipboardEventHandler
@@ -1039,6 +1058,11 @@ export interface INavbarProps {
   left?: any
   center?: any
   right?: any
+}
+
+export interface ISuggestMessageProps {
+  suggestMessages?: string[]
+  messageClick?: Function
 }
 
 /**
